@@ -7,6 +7,6 @@ public class ExcecaoAlunoInvalido extends Exception {
 	}
 
 	public ExcecaoAlunoInvalido(String message) {
-		super(message);
+		super("Aluno inválido!");
 	}
 }

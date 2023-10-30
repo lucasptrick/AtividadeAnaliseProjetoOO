@@ -8,6 +8,15 @@ public class Aluno implements Serializable {
 	private String nome;
 	private String cpf;
 	private String email;
+
+	
+	public Aluno(long id, String nome, String cpf, String email) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.cpf = cpf;
+		this.email = email;
+	}
 	
 	public long getId() {
 		return id;
@@ -34,4 +43,35 @@ public class Aluno implements Serializable {
 		this.email = email;
 	}
 	
+	
+	public static class AlunoBuilder {
+		long id;
+		String nome;
+		String cpf;
+		String email;
+		
+		public AlunoBuilder id(long id) {
+			this.id = id;
+			return this;
+		}
+		
+		public AlunoBuilder nome(String nome) {
+			this.nome = nome;
+			return this;
+		}
+		
+		public AlunoBuilder cpf(String cpf) {
+			this.cpf = cpf;
+			return this;
+		}
+		
+		public AlunoBuilder email(String email) {
+			this.email = email;
+			return this;
+		}
+		
+		public Aluno build() {
+			return new Aluno(id, nome, cpf, email);
+		}
+	}
 }

@@ -2,10 +2,12 @@ package br.edu.ifpe.apoo.apresentacao;
 
 import java.util.Scanner;
 import br.edu.ifpe.apoo.entidades.Aluno;
+import br.edu.ifpe.apoo.entidades.Aluno.AlunoBuilder;
 import br.edu.ifpe.apoo.excecoes.ExcecaoAlunoInvalido;
 import br.edu.ifpe.apoo.negocio.AlunoControladorAbstractFactory;
 import br.edu.ifpe.apoo.negocio.ControladorAluno;
 import br.edu.ifpe.apoo.negocio.IControladorAluno;
+import br.edu.ifpe.apoo.negocio.ValidadorCPF;
 
 public class AlunoApresentacao {
 	int verifica;
@@ -39,15 +41,30 @@ public class AlunoApresentacao {
 			String sair = entradaUser.nextLine(); 
 			if (sair.equalsIgnoreCase("n")) 
 			{continuar = false; 
-			}}
+			}
+		}
 	}
 
 	private void inserir() throws ExcecaoAlunoInvalido {
-		Aluno aluno = new Aluno();
+		Aluno aluno = new Aluno.AlunoBuilder()
+		.id(verifica)
+		.nome(null)
+		.cpf(null)
+		.email(null)
+		.build();
 		
-		System.out.println("Digite apenas os números do seu CPF: ");
-		String cpf = entradaUser.nextLine();
-		aluno.setCpf(cpf); 
+		boolean cpf_OK = false;
+		while (!cpf_OK) {
+			System.out.println("Digite apenas os números do seu CPF: ");
+			String cpf = entradaUser.nextLine();
+			
+			if (ValidadorCPF.isCPF(cpf)) {
+				aluno.setCpf(cpf);
+				cpf_OK = true;
+			}else {
+				System.out.println("Erro, CPF Inválido insira um CPF válido!");
+			}
+		}
 		
 		System.out.println("Digite seu nome:");
 		String nome = entradaUser.nextLine();
@@ -86,14 +103,29 @@ public class AlunoApresentacao {
 
 	}
 
-	private void atualizar() {
+	private void atualizar() throws ExcecaoAlunoInvalido {
 		System.out.println("Digite o ID do aluno a ser atualizado: ");
 		long idAtualizar = entradaUser.nextLong();
-		Aluno alunoUpdate = new Aluno();
 		
-		System.out.println("Digite apenas os números do novo CPF: ");
-		String cpf = entradaUser.next();
-		alunoUpdate.setCpf(cpf); 
+		Aluno alunoUpdate = new Aluno.AlunoBuilder()
+				.id(idAtualizar)
+				.nome(null)
+				.cpf(null)
+				.email(null)
+				.build();
+		
+		boolean cpfValido = false;
+		while (!cpfValido) {
+			System.out.println("Digite apenas os números do seu CPF: ");
+			String cpf = entradaUser.nextLine();
+			
+			if (ValidadorCPF.isCPF(cpf)) {
+				alunoUpdate.setCpf(cpf);
+				cpfValido = true;
+			}else {
+				System.out.println("Erro, CPF Inválido insira um CPF válido!");
+			}
+		}
 		
 		System.out.println("Digite o novo nome:");
 		String nome = entradaUser.next();
@@ -103,10 +135,10 @@ public class AlunoApresentacao {
 		String email = entradaUser.next();
 		alunoUpdate.setEmail(email);
 
+	
 		
-	//	Aluno alunoAtualizado;
 		IControladorAluno controlador = AlunoControladorAbstractFactory.getDAO();
-		//alunoUpdate = controlador.get(idAtualizar);
+	
 		controlador.atualizar(alunoUpdate);
 		
 		

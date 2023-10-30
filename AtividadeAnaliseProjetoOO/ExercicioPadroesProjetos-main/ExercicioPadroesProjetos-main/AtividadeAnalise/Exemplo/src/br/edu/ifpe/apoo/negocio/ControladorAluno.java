@@ -8,11 +8,11 @@ import br.edu.ifpe.apoo.dao.AlunoDAOArquivos;
 import br.edu.ifpe.apoo.dao.AlunoDAOList;
 import br.edu.ifpe.apoo.entidades.Aluno;
 import br.edu.ifpe.apoo.excecoes.ExcecaoAlunoInvalido;
+import br.edu.ifpe.apoo.negocio.ValidadorCPF;
 
 public class ControladorAluno implements IControladorAluno {
-	private static final int caracterNomeMin = 5;
-	private static final int caracterNomeMax = 100;
-	private static final int comprimentoCPF = 11;
+	private static final int caracterMin = 5;
+	private static final int caracterMax = 100;
 	
 private static ControladorAluno instancia;
 	
@@ -27,7 +27,7 @@ private static ControladorAluno instancia;
 	
 	private ControladorAluno() {}
 	
-	public void inserir(Aluno aluno) {
+	public void inserir(Aluno aluno) throws ExcecaoAlunoInvalido {
 		if (!this.isValido(aluno)) {
 			
 		}
@@ -36,7 +36,7 @@ private static ControladorAluno instancia;
 		dao.inserir(aluno);
 	}
 	
-	public void atualizar(Aluno aluno) {
+	public void atualizar(Aluno aluno) throws ExcecaoAlunoInvalido {
 		if (!this.isValido(aluno)) {
 			
 		}
@@ -56,21 +56,21 @@ private static ControladorAluno instancia;
 	@Override
 	public Aluno get(long id) {
 		AlunoDAO dao = AlunoDAOAbstractFactory.getDAO();
-		
 		return dao.get(id);
 	}
 	
-	private boolean isValido(Aluno aluno) {
+	private boolean isValido(Aluno aluno) throws ExcecaoAlunoInvalido {
 		return isNomeValido(aluno) && isCPFValido(aluno);
 		
 	}
 
-	private boolean isCPFValido(Aluno aluno) {
-		return aluno.getCpf().length() == comprimentoCPF; //Usar API - Exmeplo validação de hash... validar CPF JAVA
+	private boolean isCPFValido(Aluno aluno) throws ExcecaoAlunoInvalido {
+		if (ValidadorCPF.isCPF(aluno.getCpf()) == true) return true; 
+		throw new ExcecaoAlunoInvalido();
 	}
 
-	private boolean isNomeValido(Aluno aluno) {
-		return aluno.getNome().length() >= caracterNomeMin && aluno.getNome().length() <= caracterNomeMax; //Resolver os numeros magicos!
+	private boolean isNomeValido(Aluno aluno){
+		return aluno.getNome().length() >= caracterMin && aluno.getNome().length() <= caracterMax;
 	}
 
 
