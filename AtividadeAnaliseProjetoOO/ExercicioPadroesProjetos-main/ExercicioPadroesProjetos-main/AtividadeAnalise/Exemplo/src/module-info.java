@@ -1,9 +1,0 @@
-/**
- * 
- */
-/**
- * @author DOCENTE
- *
- */
-module Exemplo {
-}
