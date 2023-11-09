@@ -18,11 +18,11 @@ public class AlunoApresentacao {
 	public void exibirMenu() throws ExcecaoAlunoInvalido {
 		boolean continuar = true;
 		while (continuar) { 
-			System.out.println("Digite a opção desejada");
-			System.out.println("1 para inserir um aluno;");
-			System.out.println("2 para consultar um aluno;");
-			System.out.println("3 para remover um aluno;");
-			System.out.println("4 para atualizar um aluno;");
+			System.out.println("Digite a opção desejada:");
+			System.out.println("1 para inserir um aluno");
+			System.out.println("2 para consultar um aluno");
+			System.out.println("3 para remover um aluno");
+			System.out.println("4 para atualizar um aluno");
 
 			Scanner scanner = new Scanner(System.in);
 			int opcao = Integer.parseInt(scanner.nextLine());
@@ -41,28 +41,28 @@ public class AlunoApresentacao {
 
 			System.out.println(); System.out.print("Deseja continuar (s/n): "); 
 			String sair = entradaUser.nextLine(); 
-			if (sair.equalsIgnoreCase("n")) 
-			{continuar = false; 
+			if (sair.equalsIgnoreCase("n")) {
+				continuar = false; 
+				scanner.close();
 			}
 		}
 	}
+	
 	private void inserir() throws ExcecaoAlunoInvalido {
 		Aluno aluno = new Aluno.AlunoBuilder()
 		.id(verifica)
-		.nome(null)
-		.cpf(null)
-		.email(null)
 		.build();
 		
 		boolean cpf_OK = false;
 		while (!cpf_OK) {
 			System.out.println("Digite apenas os números do seu CPF: ");
 			String cpf = entradaUser.nextLine();
-			
+			cpf = formatarCPF(cpf);
 			if (ValidadorCPF.isCPF(cpf)) {
 				aluno.setCpf(cpf);
 				cpf_OK = true;
-			}else {
+			}
+			else {
 				System.out.println("Erro, CPF Inválido insira um CPF válido!");
 			}
 		}
@@ -70,11 +70,9 @@ public class AlunoApresentacao {
 		System.out.println("Digite seu nome:");
 		String nome = entradaUser.nextLine();
 		aluno.setNome(nome);
-		
 		System.out.println("Digite seu e-mail:");
 		String email = entradaUser.nextLine();
 		aluno.setEmail(email);
-		
 		aluno.setId(verifica);
 		verifica++;
 
@@ -90,9 +88,7 @@ public class AlunoApresentacao {
 		
 		IFachadaNegocio fachada = FachadaNegocioFactory.getInstancia();
 		alunoConsulta = fachada.devolverGet(idConsulta);
-		
-		System.out.println(alunoConsulta.getNome()+"\n"+alunoConsulta.getCpf()+"\n"+alunoConsulta.getEmail());
-		
+		System.out.println(alunoConsulta.getNome()+"\n"+imprimirCPF(alunoConsulta.getCpf())+"\n"+alunoConsulta.getEmail());
 	}
 	
 	private void remover() throws ExcecaoAlunoInvalido {
@@ -101,20 +97,12 @@ public class AlunoApresentacao {
 		
 		Aluno alunoRemove;
 		
-		
 		IFachadaNegocio fachada = FachadaNegocioFactory.getInstancia();
 		alunoRemove = fachada.devolverGet(idRemove);
 		fachada.removerAluno(idRemove);
 		System.out.println("Aluno removido!");
-		
-
 	}
 
-	
-
-
-
-	
 	private void atualizar() throws ExcecaoAlunoInvalido {
 		System.out.println("Digite o ID do aluno a ser atualizado: ");
 		long idAtualizar = entradaUser.nextLong();
@@ -134,7 +122,8 @@ public class AlunoApresentacao {
 			if (ValidadorCPF.isCPF(cpf)) {
 				alunoUpdate.setCpf(cpf);
 				cpfValido = true;
-			}else {
+			}
+			else {
 				System.out.println("Erro, CPF Inválido insira um CPF válido!");
 			}
 		}
@@ -146,14 +135,17 @@ public class AlunoApresentacao {
 		System.out.println("Digite o novo e-mail:");
 		String email = entradaUser.next();
 		alunoUpdate.setEmail(email);
-
-	
-		
 		
 		IFachadaNegocio fachada = FachadaNegocioFactory.getInstancia();
 		fachada.atualizarAluno(alunoUpdate);
-		
-		
-		
 	}
+	
+	private static String formatarCPF(String cpf){
+		 return cpf.replaceAll("[^0-9]", "");
+	}
+	
+	private static String imprimirCPF(String CPF) {
+        return(CPF.substring(0, 3) + "." + CPF.substring(3, 6) + "." +
+        CPF.substring(6, 9) + "-" + CPF.substring(9, 11));
+    }
 }
