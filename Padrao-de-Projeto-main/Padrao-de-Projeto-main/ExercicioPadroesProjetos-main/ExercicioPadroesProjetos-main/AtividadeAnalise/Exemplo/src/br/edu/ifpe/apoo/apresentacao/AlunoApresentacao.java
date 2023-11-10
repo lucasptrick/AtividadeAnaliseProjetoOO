@@ -109,9 +109,6 @@ public class AlunoApresentacao {
 		
 		Aluno alunoUpdate = new Aluno.AlunoBuilder()
 				.id(idAtualizar)
-				.nome(null)
-				.cpf(null)
-				.email(null)
 				.build();
 		
 		boolean cpfValido = false;
