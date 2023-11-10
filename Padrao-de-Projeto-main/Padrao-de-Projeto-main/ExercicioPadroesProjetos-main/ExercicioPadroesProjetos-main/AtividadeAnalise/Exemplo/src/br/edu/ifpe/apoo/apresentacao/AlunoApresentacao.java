@@ -10,12 +10,12 @@ import br.edu.ifpe.apoo.negocio.ValidadorCPF;
 
 
 public class AlunoApresentacao {
-
-	
 	public int verifica;
+	
 	Scanner entradaUser = new Scanner(System.in);
 
 	public void exibirMenu() throws ExcecaoAlunoInvalido {
+		
 		boolean continuar = true;
 		while (continuar) { 
 			System.out.println("Digite a opção desejada:");
@@ -49,7 +49,12 @@ public class AlunoApresentacao {
 		}
 	}
 	
+	
 	private void inserir() throws ExcecaoAlunoInvalido {
+		
+		ValidadorCPF validadorCPF = new ValidadorCPF();
+		ValidadorCPFAdapter adaptador = new ValidadorCPFAdapter(validadorCPF);
+		
 		Aluno aluno = new Aluno.AlunoBuilder()
 		.id(verifica)
 		.build();
@@ -58,8 +63,10 @@ public class AlunoApresentacao {
 		while (!cpf_OK) {
 			System.out.println("Digite o seu CPF: ");
 			String cpf = entradaUser.nextLine();
+			
 			cpf = formatarCPF(cpf);
-			if (ValidadorCPF.isCPF(cpf)) {
+			
+			if (adaptador.isCPF(cpf)) {
 				aluno.setCpf(cpf);
 				cpf_OK = true;
 			}
@@ -71,15 +78,18 @@ public class AlunoApresentacao {
 		System.out.println("Digite seu nome:");
 		String nome = entradaUser.nextLine();
 		aluno.setNome(nome);
+		
 		System.out.println("Digite seu e-mail:");
 		String email = entradaUser.nextLine();
 		aluno.setEmail(email);
+		
 		aluno.setId(verifica);
 		verifica++;
 
 		IFachadaNegocio fachada = FachadaNegocioFactory.getInstancia();
 		fachada.inserirAluno(aluno);
 	}
+	
 	
 	private void consultar() throws ExcecaoAlunoInvalido {
 		System.out.println("Digite o ID do aluno a ser consultado: ");
@@ -91,6 +101,7 @@ public class AlunoApresentacao {
 		alunoConsulta = fachada.devolverGet(idConsulta);
 		System.out.println(alunoConsulta.getNome()+"\n"+imprimirCPF(alunoConsulta.getCpf())+"\n"+alunoConsulta.getEmail());
 	}
+	
 	
 	private void remover() throws ExcecaoAlunoInvalido {
 		System.out.println("Digite o ID do aluno a ser removido: ");
@@ -104,7 +115,12 @@ public class AlunoApresentacao {
 		System.out.println("Aluno removido!");
 	}
 
+	
 	private void atualizar() throws ExcecaoAlunoInvalido {
+		
+		ValidadorCPF validadorCPF = new ValidadorCPF();
+		ValidadorCPFAdapter adaptador = new ValidadorCPFAdapter(validadorCPF);
+		
 		System.out.println("Digite o ID do aluno a ser atualizado: ");
 		long idAtualizar = entradaUser.nextLong();
 		
@@ -116,8 +132,10 @@ public class AlunoApresentacao {
 		while (!cpfValido) {
 			System.out.println("Digite o seu CPF: ");
 			String cpf = entradaUser.nextLine();
+			
 			cpf = formatarCPF(cpf);
-			if (ValidadorCPF.isCPF(cpf)) {
+
+			if (adaptador.isCPF(cpf)) {
 				alunoUpdate.setCpf(cpf);
 				cpfValido = true;
 			}
@@ -138,9 +156,11 @@ public class AlunoApresentacao {
 		fachada.atualizarAluno(alunoUpdate);
 	}
 	
+	
 	private static String formatarCPF(String cpf){
 		 return cpf.replaceAll("[^0-9]", "");
 	}
+	
 	
 	private static String imprimirCPF(String CPF) {
         return(CPF.substring(0, 3) + "." + CPF.substring(3, 6) + "." +
