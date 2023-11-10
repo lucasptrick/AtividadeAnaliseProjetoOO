@@ -39,11 +39,12 @@ public class AlunoApresentacao {
 				this.atualizar();
 			}
 
-			System.out.println(); System.out.print("Deseja continuar (s/n): "); 
+			System.out.println(); System.out.print("Deseja continuar(s/n): "); 
 			String sair = entradaUser.nextLine(); 
 			if (sair.equalsIgnoreCase("n")) {
 				continuar = false; 
 				scanner.close();
+				System.out.println("Operação finalizada!");
 			}
 		}
 	}
@@ -55,7 +56,7 @@ public class AlunoApresentacao {
 		
 		boolean cpf_OK = false;
 		while (!cpf_OK) {
-			System.out.println("Digite apenas os números do seu CPF: ");
+			System.out.println("Digite o seu CPF: ");
 			String cpf = entradaUser.nextLine();
 			cpf = formatarCPF(cpf);
 			if (ValidadorCPF.isCPF(cpf)) {
@@ -63,7 +64,7 @@ public class AlunoApresentacao {
 				cpf_OK = true;
 			}
 			else {
-				System.out.println("Erro, CPF Inválido insira um CPF válido!");
+				System.out.println("Insira um CPF válido!");
 			}
 		}
 		
@@ -113,15 +114,15 @@ public class AlunoApresentacao {
 		
 		boolean cpfValido = false;
 		while (!cpfValido) {
-			System.out.println("Digite apenas os números do seu CPF: ");
+			System.out.println("Digite o seu CPF: ");
 			String cpf = entradaUser.nextLine();
-			
+			cpf = formatarCPF(cpf);
 			if (ValidadorCPF.isCPF(cpf)) {
 				alunoUpdate.setCpf(cpf);
 				cpfValido = true;
 			}
 			else {
-				System.out.println("Erro, CPF Inválido insira um CPF válido!");
+				System.out.println("Insira um CPF válido!");
 			}
 		}
 		
