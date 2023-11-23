@@ -10,6 +10,7 @@ public class Aluno implements Serializable {
 	private String email;
 
 	
+	
 	public Aluno(long id, String nome, String cpf, String email) {
 		super();
 		this.id = id;
@@ -77,6 +78,17 @@ public class Aluno implements Serializable {
 			return new Aluno(id, nome, cpf, email);
 		}
 
+		
+	}
+	
+	 public Aluno clone() {
+		return new AlunoBuilder()
+				.cpf(this.cpf)
+				.id(this.id)
+				.nome(this.nome)
+				.email(this.email)
+				.build();
+				
 		
 	}
 	

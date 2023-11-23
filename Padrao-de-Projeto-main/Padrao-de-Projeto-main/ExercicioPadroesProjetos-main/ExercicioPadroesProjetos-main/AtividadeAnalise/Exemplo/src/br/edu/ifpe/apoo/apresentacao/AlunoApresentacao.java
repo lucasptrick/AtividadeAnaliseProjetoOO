@@ -107,10 +107,9 @@ public class AlunoApresentacao {
 		System.out.println("Digite o ID do aluno a ser removido: ");
 		long idRemove = entradaUser.nextLong();
 		
-		Aluno alunoRemove;
 		
 		IFachadaNegocio fachada = FachadaNegocioFactory.getInstancia();
-		alunoRemove = fachada.devolverGet(idRemove);
+		Aluno alunoRemove = fachada.devolverGet(idRemove);
 		fachada.removerAluno(idRemove);
 		System.out.println("Aluno removido!");
 	}

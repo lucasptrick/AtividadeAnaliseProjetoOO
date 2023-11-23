@@ -27,8 +27,7 @@ public class AlunoDAOList implements AlunoDAO{
 	public void atualizar(Aluno aluno) {
 		for (Aluno alunoAtualizar : alunos) {
 			if (alunoAtualizar.getId() == aluno.getId()) {
-				//alunoAtualizar = aluno;
-				alunos.set((int)aluno.getId(), aluno);
+				alunos.set((int)aluno.getId(), aluno.clone());
 			}
 		}
 		
@@ -47,7 +46,8 @@ public class AlunoDAOList implements AlunoDAO{
 	public Aluno get(long id) {
 		for (Aluno alunoConsulta : alunos) {
 			if (alunoConsulta.getId() == id) {
-				return alunos.get((int) id);  
+				
+				return alunos.get((int) id).clone();  
 			}
 		}
 		throw new UnsupportedOperationException("Aluno n encontrado!");
