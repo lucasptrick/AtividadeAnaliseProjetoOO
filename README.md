@@ -18,3 +18,6 @@ Regras de negócio:
 >> Implemente o padrão de projetos Adapter, para incluir no seu projeto uma validação de CPF de alguma biblioteca externa. Pode pesquisar e escolher qualquer biblioteca de sua preferência;
 >> Implemente o padrão de projetos Builder para a construção de objetos do tipo Aluno
 
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+➜ Até o presente dia, 24/11, concluímos o projeto acima com todos os padrões de projetos implementados e regras de negócios obedecidas, e tratamento de informações de recebidas e exibidas! Colaboradores: @JoãoOliveira @MariaFernanda
