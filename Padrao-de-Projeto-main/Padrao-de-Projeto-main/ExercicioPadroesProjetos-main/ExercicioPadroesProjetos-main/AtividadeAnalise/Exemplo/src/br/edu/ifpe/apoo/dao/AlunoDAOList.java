@@ -40,7 +40,7 @@ public class AlunoDAOList implements AlunoDAO{
 				return true;
 			}
 		}
-		throw new UnsupportedOperationException("not implemented");
+		throw new UnsupportedOperationException("Aluno não foi removido!\nCertifique-se de digitar o ID correto!");
 	}
 
 	public Aluno get(long id) {
@@ -50,6 +50,6 @@ public class AlunoDAOList implements AlunoDAO{
 				return alunos.get((int) id).clone();  
 			}
 		}
-		throw new UnsupportedOperationException("Aluno n encontrado!");
+		throw new UnsupportedOperationException("Aluno não encontrado!\nCertifique-se de digitar o ID correto!");
 	}
 }

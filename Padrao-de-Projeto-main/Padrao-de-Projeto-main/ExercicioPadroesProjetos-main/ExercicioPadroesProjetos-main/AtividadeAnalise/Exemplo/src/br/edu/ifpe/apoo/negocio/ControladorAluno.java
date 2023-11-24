@@ -11,10 +11,6 @@ import br.edu.ifpe.apoo.excecoes.ExcecaoAlunoInvalido;
 
 public class ControladorAluno implements IControladorAluno {
 	
-	private static final int caracterMin = 5;
-	private static final int caracterMax = 100;
-	
-	
 	private static ControladorAluno instancia;
 	
 
@@ -62,19 +58,34 @@ public class ControladorAluno implements IControladorAluno {
 	}
 	
 	private boolean isValido(Aluno aluno) throws ExcecaoAlunoInvalido  {
-		return isNomeValido(aluno) && isCPFValido(aluno);
+		return isNomeValido(aluno) && isCPFValido(aluno) && isEmailValido(aluno);
 		
 	}
 
 	private boolean isCPFValido(Aluno aluno) throws ExcecaoAlunoInvalido {
-		if (ValidadorCPF.isCPF(aluno.getCpf()) == true) return true; 
+		ValidadorCPF validadorCPF = new ValidadorCPF();
+		ValidadorCPFAdapter adaptador = new ValidadorCPFAdapter(validadorCPF);
+		
+		
+		if (adaptador.isCPF(aluno.getCpf()) == true) return true; 
 		throw new ExcecaoAlunoInvalido();
 	}
 
-	private boolean isNomeValido(Aluno aluno){
-		return aluno.getNome().length() >= caracterMin && aluno.getNome().length() <= caracterMax;
+	private boolean isNomeValido(Aluno aluno) throws ExcecaoAlunoInvalido{
+		ValidadorNOME validadorNOME = new ValidadorNOME();
+		ValidadorNOMEAdapter adaptador = new ValidadorNOMEAdapter(validadorNOME);
+		
+		if (adaptador.isNome(aluno.getNome()) == true) return true;
+		throw new ExcecaoAlunoInvalido();
+		
 	}
-
-
-
+	
+	private boolean isEmailValido(Aluno aluno) throws ExcecaoAlunoInvalido{
+		ValidadorEMAIL validadorEMAIL= new ValidadorEMAIL();
+		ValidadorEMAILAdapter adaptador = new ValidadorEMAILAdapter(validadorEMAIL);
+		
+		if (adaptador.isEMAIL(aluno.getEmail())==true) return true;
+		throw new ExcecaoAlunoInvalido();
+		
+	}
 }
