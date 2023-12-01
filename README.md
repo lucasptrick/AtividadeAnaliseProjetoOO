@@ -25,5 +25,6 @@ Regras de negócio:
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ➜ Até o presente dia, 24/11, concluímos o projeto acima com todos os padrões de projetos implementados e regras de negócios obedecidas, e tratamento de informações de recebidas e exibidas! 
+
 ➜ Correção e conclusão do projeto, dia 01/12!
 Colaboradores: @JoãoOliveira @MariaFernanda
