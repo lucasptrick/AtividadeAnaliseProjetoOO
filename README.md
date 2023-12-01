@@ -19,5 +19,11 @@ Regras de negócio:
 >> Implemente o padrão de projetos Builder para a construção de objetos do tipo Aluno
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3ª Semana de atividade
+>> Implemente o padrão de projeto Prototype.
+>> Revisão do projeto e ajustes finos de otimização!
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-➜ Até o presente dia, 24/11, concluímos o projeto acima com todos os padrões de projetos implementados e regras de negócios obedecidas, e tratamento de informações de recebidas e exibidas! Colaboradores: @JoãoOliveira @MariaFernanda
+➜ Até o presente dia, 24/11, concluímos o projeto acima com todos os padrões de projetos implementados e regras de negócios obedecidas, e tratamento de informações de recebidas e exibidas! 
+➜ Correção e conclusão do projeto, dia 01/12!
+Colaboradores: @JoãoOliveira @MariaFernanda
