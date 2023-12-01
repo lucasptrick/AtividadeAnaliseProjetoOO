@@ -1,8 +1,6 @@
 package br.edu.ifpe.apoo.main;
 
-import br.edu.ifpe.apoo.apresentacao.AlunoApresentacao;
 import br.edu.ifpe.apoo.apresentacao.FachadaApresentacaoFactory;
-import br.edu.ifpe.apoo.excecoes.ExcecaoAlunoInvalido;
 import br.edu.ifpe.apoo.apresentacao.IFachadaApresentacao;
 
 public class Main {

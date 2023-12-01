@@ -25,31 +25,40 @@ public class AlunoDAOList implements AlunoDAO{
 	}
 
 	public void atualizar(Aluno aluno) {
-		for (Aluno alunoAtualizar : alunos) {
-			if (alunoAtualizar.getId() == aluno.getId()) {
+		//for (Aluno alunoAtualizar : alunos) {
+			if (alunoEncontrado(aluno.getId())) {
 				alunos.set((int)aluno.getId(), aluno.clone());
 			}
-		}
+		//}
 		
 	}
 
 	public boolean remover(long id) {
-		for (Aluno alunoRemover : alunos) {
-			if (alunoRemover.getId() == id) {
+		//for (Aluno alunoRemover : alunos) {
+			if (alunoEncontrado(id)) {
 				alunos.remove((int)id);
 				return true;
 			}
-		}
-		throw new UnsupportedOperationException("Aluno não foi removido!\nCertifique-se de digitar o ID correto!");
+		//}
+		throw new RuntimeException("Aluno não foi removido!\nCertifique-se de digitar o ID correto!");
 	}
 
 	public Aluno get(long id) {
-		for (Aluno alunoConsulta : alunos) {
-			if (alunoConsulta.getId() == id) {
+		//for (Aluno alunoConsulta : alunos) {
+			if (alunoEncontrado(id)) {
 				
 				return alunos.get((int) id).clone();  
 			}
+		//}
+		throw new RuntimeException("Aluno não encontrado!\nCertifique-se de digitar o ID correto!");
+	}
+	
+	private boolean alunoEncontrado(long idSupostoAluno) {
+		for (Aluno alunoEncontrado : alunos) {
+			if ((alunoEncontrado.getId() == idSupostoAluno)) {
+				return true;
+			}
 		}
-		throw new UnsupportedOperationException("Aluno não encontrado!\nCertifique-se de digitar o ID correto!");
+		return false;
 	}
 }

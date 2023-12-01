@@ -6,8 +6,7 @@ import br.edu.ifpe.apoo.dao.AlunoDAOList;
 public class ControladorFactory {
 
 	public static ControladorAluno getControladorAluno() {
-
 		return ControladorAluno.getInstancia();
+		
 	}
-
 }

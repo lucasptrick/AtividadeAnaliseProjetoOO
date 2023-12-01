@@ -1,7 +1,5 @@
 package br.edu.ifpe.apoo.negocio;
 
-import java.util.List;
-
 import br.edu.ifpe.apoo.entidades.Aluno;
 import br.edu.ifpe.apoo.excecoes.ExcecaoAlunoInvalido;
 

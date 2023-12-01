@@ -1,17 +1,15 @@
 package br.edu.ifpe.apoo.apresentacao;
 
 import java.util.Scanner;
+import java.util.function.Predicate;
 
 import br.edu.ifpe.apoo.entidades.Aluno;
 import br.edu.ifpe.apoo.excecoes.ExcecaoAlunoInvalido;
 import br.edu.ifpe.apoo.negocio.FachadaNegocioFactory;
 import br.edu.ifpe.apoo.negocio.IFachadaNegocio;
-import br.edu.ifpe.apoo.negocio.ValidadorCPF;
-import br.edu.ifpe.apoo.negocio.ValidadorCPFAdapter;
-import br.edu.ifpe.apoo.negocio.ValidadorEMAIL;
-import br.edu.ifpe.apoo.negocio.ValidadorEMAILAdapter;
-import br.edu.ifpe.apoo.negocio.ValidadorNOME;
-import br.edu.ifpe.apoo.negocio.ValidadorNOMEAdapter;
+import br.edu.ifpe.apoo.negocio.validacao.ValidadorCPFAdapter;
+import br.edu.ifpe.apoo.negocio.validacao.ValidadorEMAILAdapter;
+import br.edu.ifpe.apoo.negocio.validacao.ValidadorNOMEAdapter;
 
 
 public class AlunoApresentacao {
@@ -29,8 +27,7 @@ public class AlunoApresentacao {
 			System.out.println("3 para remover um aluno");
 			System.out.println("4 para atualizar um aluno");
 
-			Scanner scanner = new Scanner(System.in);
-			int opcao = Integer.parseInt(scanner.nextLine());
+			int opcao = Integer.parseInt(entradaUser.nextLine());
 			if (opcao == 1) {
 				this.inserir();
 			}
@@ -48,7 +45,6 @@ public class AlunoApresentacao {
 			String sair = entradaUser.nextLine(); 
 			if (sair.equalsIgnoreCase("n")) {
 				continuar = false; 
-				scanner.close();
 				System.out.println("Operação finalizada!");
 			}
 		}
@@ -56,74 +52,25 @@ public class AlunoApresentacao {
 
 
 	private void inserir() throws ExcecaoAlunoInvalido {
+		ValidadorCPFAdapter adaptadorCPF = new ValidadorCPFAdapter();
+		ValidadorNOMEAdapter adaptadorNome = new ValidadorNOMEAdapter();
+		ValidadorEMAILAdapter adaptadorEmail = new ValidadorEMAILAdapter();
 
-		ValidadorCPF validadorCPF = new ValidadorCPF();
-		ValidadorCPFAdapter adaptadorCPF = new ValidadorCPFAdapter(validadorCPF);
-
-		ValidadorNOME validadorNOME = new ValidadorNOME();
-		ValidadorNOMEAdapter adaptadorNome = new ValidadorNOMEAdapter(validadorNOME);
-
-		ValidadorEMAIL validadorEMAIL = new ValidadorEMAIL();
-		ValidadorEMAILAdapter adaptadorEmail = new ValidadorEMAILAdapter(validadorEMAIL);
-
-
+		String cpf = lerCampo("Digite seu CPF: ", xCPF -> adaptadorCPF.isCPF(xCPF), "Insira um CPF válido!");
+		String nome = lerCampo("Digite seu nome: ", xNOME -> adaptadorNome.isNome(xNOME), "Insira um NOME válido!");
+		String email = lerCampo("Digite seu email: ", xEMAIL -> adaptadorEmail.isEMAIL(xEMAIL), "Insira um EMAIL válido!");
+		
 		Aluno aluno = new Aluno.AlunoBuilder()
 				.id(verifica)
+				.cpf(cpf)
+				.nome(nome)
+				.email(email)
 				.build();
-
-
-		boolean cpf_OK = false;
-		while (!cpf_OK) {
-			System.out.println("Digite o seu CPF: ");
-			String cpf = entradaUser.nextLine();
-
-			cpf = formatarCPF(cpf);
-
-			if (adaptadorCPF.isCPF(cpf)) {
-				aluno.setCpf(cpf);
-				cpf_OK = true;
-			}
-			else {
-				System.out.println("Insira um CPF válido!");
-			}
-		}
-
-
-		boolean nome_OK = false;
-		while (!nome_OK) {
-			System.out.println("Digite seu nome:");
-			String nome = entradaUser.nextLine();
-
-			if(adaptadorNome.isNome(nome)) {
-				aluno.setNome(nome);
-				nome_OK = true;
-			}
-			else {
-				System.out.println("Insira um NOME válido!");
-			}
-		}
-
-
-		boolean email_OK = false;
-		while (!email_OK) {
-			System.out.println("Digite o novo e-mail:");
-			String email = entradaUser.next();
-
-			if (adaptadorEmail.isEMAIL(email)) {
-				aluno.setEmail(email);
-				email_OK = true;
-			}
-			else {
-				System.out.println("Insira um EMAIL válido!");
-			}
-		}
-
-
-		aluno.setId(verifica);
+		
 		verifica++;
-
 		IFachadaNegocio fachada = FachadaNegocioFactory.getInstancia();
 		fachada.inserirAluno(aluno);
+		System.out.println(">> O aluno, "+aluno.getNome()+" foi inserido com sucesso.\n");
 	}
 
 
@@ -135,7 +82,8 @@ public class AlunoApresentacao {
 
 		IFachadaNegocio fachada = FachadaNegocioFactory.getInstancia();
 		alunoConsulta = fachada.devolverGet(idConsulta);
-		System.out.println(alunoConsulta.getNome()+"\n"+imprimirCPF(alunoConsulta.getCpf())+"\n"+alunoConsulta.getEmail());
+		System.out.println(">> O aluno encontrado!");
+		System.out.println("Nome: "+alunoConsulta.getNome()+"\nCPF: "+imprimirCPF(alunoConsulta.getCpf())+"\nEmail: "+alunoConsulta.getEmail()+"\n");
 	}
 
 
@@ -143,92 +91,57 @@ public class AlunoApresentacao {
 		System.out.println("Digite o ID do aluno a ser removido: ");
 		long idRemove = entradaUser.nextLong();
 
-
 		IFachadaNegocio fachada = FachadaNegocioFactory.getInstancia();
-		Aluno alunoRemove = fachada.devolverGet(idRemove);
+		System.out.println(">> Aluno-ID:"+fachada.devolverGet(idRemove).getId()+" foi removido com sucesso.\n");
 		fachada.removerAluno(idRemove);
-		System.out.println("Aluno removido!");
 	}
 
 
 	private void atualizar() throws ExcecaoAlunoInvalido {
-
-		ValidadorCPF validadorCPF = new ValidadorCPF();
-		ValidadorCPFAdapter adaptadorCPF = new ValidadorCPFAdapter(validadorCPF);
-
-		ValidadorNOME validadorNOME = new ValidadorNOME();
-		ValidadorNOMEAdapter adaptadorNome = new ValidadorNOMEAdapter(validadorNOME);
-
-		ValidadorEMAIL validadorEMAIL = new ValidadorEMAIL();
-		ValidadorEMAILAdapter adaptadorEmail = new ValidadorEMAILAdapter(validadorEMAIL);
-
+		ValidadorCPFAdapter adaptadorCPF = new ValidadorCPFAdapter();
+		ValidadorNOMEAdapter adaptadorNome = new ValidadorNOMEAdapter();
+		ValidadorEMAILAdapter adaptadorEmail = new ValidadorEMAILAdapter();
 
 		System.out.println("Digite o ID do aluno a ser atualizado: ");
 		long idAtualizar = entradaUser.nextLong();
 		
-
+		String cpf = lerCampo("Digite seu CPF: ", xCPF -> adaptadorCPF.isCPF(xCPF), "Insira um CPF válido!");
+		String nome = lerCampo("Digite seu nome: ", xNOME -> adaptadorNome.isNome(xNOME), "Insira um NOME válido!");
+		String email = lerCampo("Digite seu email: ", xEMAIL -> adaptadorEmail.isEMAIL(xEMAIL), "Insira um EMAIL válido!");
+		
 		Aluno alunoUpdate = new Aluno.AlunoBuilder()
 				.id(idAtualizar)
+				.cpf(cpf)
+				.nome(nome)
+				.email(email)
 				.build();
-
-
-		boolean cpfValido = false;
-		while (!cpfValido) {
-			System.out.println("Digite o seu CPF: ");
-			String cpf = entradaUser.nextLine();
-
-			cpf = formatarCPF(cpf);
-
-			if (adaptadorCPF.isCPF(cpf)) {
-				alunoUpdate.setCpf(cpf);
-				cpfValido = true;
-			}
-			else {
-				System.out.println("Insira um CPF válido!");
-			}
-		}
-
-		boolean nome_OK = false;
-		while (!nome_OK) {
-			System.out.println("Digite seu nome:");
-			String nome = entradaUser.nextLine();
-
-			if(adaptadorNome.isNome(nome)) {
-				alunoUpdate.setNome(nome);
-				nome_OK = true;
-			}
-			else {
-				System.out.println("Insira um NOME válido!");
-			}
-		}
-
-		boolean email_OK = false;
-		while (!email_OK) {
-			System.out.println("Digite o novo e-mail:");
-			String email = entradaUser.next();
-
-			if (adaptadorEmail.isEMAIL(email)) {
-				alunoUpdate.setEmail(email);
-				email_OK = true;
-			}
-			else {
-				System.out.println("Insira um EMAIL válido!");
-			}
-		}
-
+		
 		IFachadaNegocio fachada = FachadaNegocioFactory.getInstancia();
+		System.out.println(">> Aluno-ID:"+fachada.devolverGet(idAtualizar).getId()+" foi atualizado com sucesso.\n");
 		fachada.atualizarAluno(alunoUpdate);
-
 	}
+	
+	private String lerCampo(String mensagemInput, Predicate<String> predicate, String mensagemERRO) {
+		String campo;
+		boolean isValido;
+		do {
+			System.out.println(mensagemInput);
+			campo = entradaUser.nextLine();
+			
+			isValido = predicate.test(campo);
+			
+			if (!isValido) {
+				System.out.println(mensagemERRO);
+			}
 
-
-	private static String formatarCPF(String cpf){
-		return cpf.replaceAll("[^0-9]", "");
+		} while (!isValido);
+	
+		return campo;
 	}
-
-
+	
 	private static String imprimirCPF(String CPF) {
-		return(CPF.substring(0, 3) + "." + CPF.substring(3, 6) + "." +
-				CPF.substring(6, 9) + "-" + CPF.substring(9, 11));
+		ValidadorCPFAdapter adaptadorCPF = new ValidadorCPFAdapter();
+		CPF = adaptadorCPF.formatarCPF(CPF);
+		return CPF.substring(0, 3) + "." + CPF.substring(3, 6) + "." + CPF.substring(6, 9) + "-" + CPF.substring(9, 11);
 	}
 }

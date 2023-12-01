@@ -2,13 +2,10 @@ package br.edu.ifpe.apoo.negocio;
 
 public class FachadaNegocioFactory {
 
-	private static FachadaNegocio instancia;
+	private static IFachadaNegocio instancia;
 	
-	public static FachadaNegocio getInstancia() {
-		/*if (instancia == null) instancia = new FachadaNegocio();*/
-	
-
+	public static IFachadaNegocio getInstancia() {
+		return (instancia == null ) ? new FachadaNegocio() : instancia;
 		
-		return (instancia == null ) ? new FachadaNegocio()  : instancia  ;
 	}
 }

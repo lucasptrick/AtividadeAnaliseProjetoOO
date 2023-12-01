@@ -3,7 +3,6 @@ package br.edu.ifpe.apoo.dao;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
-import java.util.stream.Stream;
 
 import br.edu.ifpe.apoo.entidades.Aluno;
 
