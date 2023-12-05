@@ -68,7 +68,8 @@ public class AlunoApresentacao {
 				.build();
 		
 		verifica++;
-		IFachadaNegocio fachada = FachadaNegocioFactory.getInstancia();
+		
+		IFachadaNegocio fachada = FachadaNegocioFactory.getFachadaNegocio();
 		fachada.inserirAluno(aluno);
 		System.out.println(">> O aluno, "+aluno.getNome()+" foi inserido com sucesso.\n");
 	}
@@ -80,7 +81,7 @@ public class AlunoApresentacao {
 
 		Aluno alunoConsulta;
 
-		IFachadaNegocio fachada = FachadaNegocioFactory.getInstancia();
+		IFachadaNegocio fachada = FachadaNegocioFactory.getFachadaNegocio();
 		alunoConsulta = fachada.devolverGet(idConsulta);
 		System.out.println(">> O aluno encontrado!");
 		System.out.println("Nome: "+alunoConsulta.getNome()+"\nCPF: "+imprimirCPF(alunoConsulta.getCpf())+"\nEmail: "+alunoConsulta.getEmail()+"\n");
@@ -91,7 +92,7 @@ public class AlunoApresentacao {
 		System.out.println("Digite o ID do aluno a ser removido: ");
 		long idRemove = entradaUser.nextLong();
 
-		IFachadaNegocio fachada = FachadaNegocioFactory.getInstancia();
+		IFachadaNegocio fachada = FachadaNegocioFactory.getFachadaNegocio();
 		System.out.println(">> Aluno-ID:"+fachada.devolverGet(idRemove).getId()+" foi removido com sucesso.\n");
 		fachada.removerAluno(idRemove);
 	}
@@ -116,7 +117,7 @@ public class AlunoApresentacao {
 				.email(email)
 				.build();
 		
-		IFachadaNegocio fachada = FachadaNegocioFactory.getInstancia();
+		IFachadaNegocio fachada = FachadaNegocioFactory.getFachadaNegocio();
 		System.out.println(">> Aluno-ID:"+fachada.devolverGet(idAtualizar).getId()+" foi atualizado com sucesso.\n");
 		fachada.atualizarAluno(alunoUpdate);
 	}

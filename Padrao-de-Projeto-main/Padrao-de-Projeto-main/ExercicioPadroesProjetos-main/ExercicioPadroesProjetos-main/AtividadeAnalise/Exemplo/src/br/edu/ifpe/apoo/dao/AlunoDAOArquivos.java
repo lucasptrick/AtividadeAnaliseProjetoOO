@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 
 import br.edu.ifpe.apoo.entidades.Aluno;
 
-public class AlunoDAOArquivos  implements AlunoDAO {
+public class AlunoDAOArquivos implements AlunoDAO {
 
 	public boolean verificarPermissaoEscritaArquivos() {
 		throw new UnsupportedOperationException("not implemented!");
@@ -20,7 +20,7 @@ public class AlunoDAOArquivos  implements AlunoDAO {
 			stream = new ObjectOutputStream(out);
 			stream.writeObject(aluno);
 		} catch (Exception eX) {
-		//...
+		//...F
 		} finally {
 			if (stream != null) {
 				try {

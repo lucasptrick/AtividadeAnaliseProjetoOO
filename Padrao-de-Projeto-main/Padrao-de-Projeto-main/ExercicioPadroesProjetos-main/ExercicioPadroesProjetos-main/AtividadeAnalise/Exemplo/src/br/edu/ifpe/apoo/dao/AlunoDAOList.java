@@ -1,51 +1,56 @@
 package br.edu.ifpe.apoo.dao;
 
 import java.util.ArrayList;
-
 import br.edu.ifpe.apoo.entidades.Aluno;
 
-public class AlunoDAOList implements AlunoDAO{
+public class AlunoDAOList implements AlunoDAO {
 
 	private static AlunoDAOList instancia;
-	
+
 	ArrayList<Aluno> alunos = new ArrayList<Aluno>();
-	
+
 	protected static AlunoDAOList getInstancia() {
 		if (instancia == null) {
+
 			instancia = new AlunoDAOList();
 		}
 
 		return instancia;
 	}
 
-	private AlunoDAOList() {}
+	private AlunoDAOList() {
+	}
 
+	@Override
 	public void inserir(Aluno aluno) {
 		alunos.add(aluno);
 	}
 
+	@Override
 	public void atualizar(Aluno aluno) {
-			if (alunoEncontrado(aluno.getId())) {
-				alunos.set((int)aluno.getId(), aluno.clone());
-			}	
+		if (alunoEncontrado(aluno.getId())) {
+			alunos.set((int) aluno.getId(), aluno.clone());
+		}
 	}
 
+	@Override
 	public boolean remover(long id) {
-			if (alunoEncontrado(id)) {
-				alunos.remove((int)id);
-				return true;
-			}
+		if (alunoEncontrado(id)) {
+			alunos.remove((int) id);
+			return true;
+		}
 		throw new RuntimeException("Aluno não foi removido!\nCertifique-se de digitar o ID correto!");
 	}
 
+	@Override
 	public Aluno get(long id) {
-			if (alunoEncontrado(id)) {
-				
-				return alunos.get((int) id).clone();  
-			}
+		if (alunoEncontrado(id)) {
+
+			return alunos.get((int) id).clone();
+		}
 		throw new RuntimeException("Aluno não encontrado!\nCertifique-se de digitar o ID correto!");
 	}
-	
+
 	private boolean alunoEncontrado(long idSupostoAluno) {
 		for (Aluno alunoEncontrado : alunos) {
 			if ((alunoEncontrado.getId() == idSupostoAluno)) {

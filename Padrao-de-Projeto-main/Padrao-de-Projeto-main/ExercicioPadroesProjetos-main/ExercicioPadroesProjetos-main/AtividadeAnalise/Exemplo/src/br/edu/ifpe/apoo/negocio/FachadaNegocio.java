@@ -5,7 +5,18 @@ import br.edu.ifpe.apoo.excecoes.ExcecaoAlunoInvalido;
 
 public class FachadaNegocio implements IFachadaNegocio {
 
-	public FachadaNegocio() {
+	private FachadaNegocio() {
+	}
+	
+	private static FachadaNegocio instancia;
+	
+	public static FachadaNegocio getInstancia() {
+		if (instancia == null) {
+			instancia = new FachadaNegocio();
+			
+		}
+		return instancia;
+		
 	}
 	
 	

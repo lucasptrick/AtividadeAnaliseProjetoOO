@@ -5,4 +5,5 @@ public class AlunoDAOAbstractFactory {
 	public static AlunoDAO getDAO() {
 		return AlunoDAOList.getInstancia();
 	}
+	
 }
